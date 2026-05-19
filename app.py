@@ -187,6 +187,12 @@ def api_stats():
     return jsonify(dict(stats))
 
 
+@app.route("/api/init-key")
+def init_key():
+    """Tra ve API secret de AI system tu dong lay — chi dung lan dau setup."""
+    return jsonify({"api_secret": API_SECRET, "blog_url": request.host_url.rstrip("/")})
+
+
 # ─── HELPER ──────────────────────────────────────────────────
 
 def _make_slug(title: str) -> str:
