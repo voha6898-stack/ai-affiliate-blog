@@ -10,6 +10,6 @@ services:
       - key: SITE_URL
         value: ""   # Render tu dong dien sau khi deploy
       - key: BLOG_API_SECRET
-        generateValue: true   # Render tu tao secret key
+        value: "dnSg54GT7EMbFeXlBtxz5Z-cOnY00m00EEPms5xbKso"
       - key: DB_PATH
         value: "/opt/render/project/src/blog.db"
