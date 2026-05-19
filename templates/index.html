@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ niche|title + " — " if niche else "" }}{{ site_name }}</title>
+<meta name="description" content="Expert reviews, comparisons, and buying guides. Find the best products for your needs.">
+<style>
+  :root{--primary:#6366f1;--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  a{color:var(--primary);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Header */
+  header{background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:16px 24px;position:sticky;top:0;z-index:100}
+  .nav{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+  .logo{font-size:20px;font-weight:700;color:white}
+  .nav-links a{color:rgba(255,255,255,0.8);margin-left:24px;font-size:14px}
+  .nav-links a:hover{color:white}
+
+  /* Hero */
+  .hero{background:linear-gradient(135deg,#1e1b4b,#312e81);padding:60px 24px;text-align:center}
+  .hero h1{font-size:36px;font-weight:800;margin-bottom:12px;background:linear-gradient(135deg,#a5b4fc,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{font-size:18px;color:var(--muted);max-width:600px;margin:0 auto}
+
+  /* Main */
+  .container{max-width:1200px;margin:0 auto;padding:48px 24px}
+  .section-title{font-size:22px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+  /* Article Grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-4px);border-color:var(--primary)}
+  .card-niche{font-size:11px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;background:rgba(99,102,241,.15);display:inline-block;padding:3px 10px;border-radius:20px}
+  .card h2{font-size:17px;font-weight:700;margin-bottom:10px;line-height:1.4}
+  .card h2 a{color:var(--text)}
+  .card h2 a:hover{color:var(--primary);text-decoration:none}
+  .card-desc{font-size:14px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+  .card-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+  .card-meta .read-btn{background:var(--primary);color:white;padding:6px 16px;border-radius:8px;font-size:13px;font-weight:500}
+  .card-meta .read-btn:hover{background:#4f46e5;text-decoration:none}
+
+  /* Empty state */
+  .empty{text-align:center;padding:80px 24px;color:var(--muted)}
+  .empty h3{font-size:20px;margin-bottom:8px}
+
+  /* Footer */
+  footer{background:var(--card);border-top:1px solid var(--border);padding:32px 24px;text-align:center;color:var(--muted);font-size:13px;margin-top:80px}
+  footer p{margin-bottom:8px}
+  footer a{color:var(--muted)}
+
+  @media(max-width:768px){
+    .hero h1{font-size:26px}
+    .grid{grid-template-columns:1fr}
+    .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="/" class="logo">{{ site_name }}</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </div>
+  </div>
+</header>
+
+{% if not niche %}
+<div class="hero">
+  <h1>Expert Reviews & Buying Guides</h1>
+  <p>AI-powered research to help you find the best products and services in 2026</p>
+</div>
+{% else %}
+<div class="hero">
+  <h1>{{ niche|title }} Reviews</h1>
+  <p>Expert guides and comparisons for {{ niche }}</p>
+</div>
+{% endif %}
+
+<div class="container">
+  <div class="section-title">Latest Articles ({{ articles|length }})</div>
+
+  {% if articles %}
+  <div class="grid">
+    {% for a in articles %}
+    <div class="card">
+      {% if a.niche %}
+      <div class="card-niche">{{ a.niche }}</div>
+      {% endif %}
+      <h2><a href="/article/{{ a.slug }}">{{ a.title }}</a></h2>
+      {% if a.meta_description %}
+      <p class="card-desc">{{ a.meta_description[:120] }}{% if a.meta_description|length > 120 %}...{% endif %}</p>
+      {% endif %}
+      <div class="card-meta">
+        <span>{{ a.word_count|default(0) }} words &bull; {{ a.published_at[:10] }}</span>
+        <a href="/article/{{ a.slug }}" class="read-btn">Read More</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <h3>No articles yet</h3>
+    <p>The AI system is working on creating content. Check back soon!</p>
+  </div>
+  {% endif %}
+</div>
+
+<footer>
+  <p>&copy; 2026 {{ site_name }}. All rights reserved.</p>
+  <p>This site contains affiliate links. We may earn a commission when you click and purchase.</p>
+</footer>
+</body>
+</html>

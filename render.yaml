@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ai-affiliate-blog
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: SITE_NAME
+        value: "AI Affiliate Reviews"
+      - key: SITE_URL
+        value: ""   # Render tu dong dien sau khi deploy
+      - key: BLOG_API_SECRET
+        generateValue: true   # Render tu tao secret key
+      - key: DB_PATH
+        value: "/opt/render/project/src/blog.db"
