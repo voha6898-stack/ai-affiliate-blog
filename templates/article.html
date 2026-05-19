@@ -9,7 +9,7 @@
 <meta property="og:title" content="{{ article.title }}">
 <meta property="og:description" content="{{ article.meta_description }}">
 <meta property="og:type" content="article">
-<!-- Schema.org Article -->
+<!-- Schema.org Article + Review -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -17,7 +17,21 @@
   "headline":"{{ article.title }}",
   "description":"{{ article.meta_description }}",
   "datePublished":"{{ article.published_at[:10] }}",
-  "dateModified":"{{ article.updated_at[:10] }}"
+  "dateModified":"{{ article.updated_at[:10] }}",
+  "author":{"@type":"Organization","name":"{{ site_name }}"},
+  "publisher":{"@type":"Organization","name":"{{ site_name }}"},
+  "mainEntityOfPage":{"@type":"WebPage","@id":"{{ request.url }}"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"{{ request.host_url }}"},
+    {"@type":"ListItem","position":2,"name":"{{ article.niche|title }}","item":"{{ request.host_url }}niche/{{ article.niche }}"},
+    {"@type":"ListItem","position":3,"name":"{{ article.title[:60] }}"}
+  ]
 }
 </script>
 <style>
